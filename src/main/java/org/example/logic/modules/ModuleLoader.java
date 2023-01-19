@@ -1,0 +1,73 @@
+package org.example.logic.modules;
+
+import org.bukkit.plugin.java.JavaPlugin;
+import org.example.logic.enums.EModuleStatus;
+import org.example.logic.interfaces.IModule;
+
+import javax.annotation.Nonnull;
+import java.util.HashMap;
+import java.util.Map;
+
+public class ModuleLoader<M extends JavaPlugin> {
+
+    private final Map<Class<? extends IModule>, Module<M>> modules = new HashMap<>();
+    private EModuleStatus moduleStatus = EModuleStatus.IDLE;
+
+    /**
+     * Prepares the given module for use.
+     *
+     * @param module The module to prepare.
+     * @throws NullPointerException if the module is null.
+     */
+    public void prepare(@Nonnull Module<M> module) {
+        if (! modules.containsKey(module.getClass())) {
+            modules.put(module.getClass(), module);
+        }
+    }
+
+    /**
+     * Loads all modules.
+     *
+     * @throws RuntimeException if the loader is not in an idle status.
+     */
+    public void load() {
+        if (! moduleStatus.equals(EModuleStatus.IDLE)) {
+            throw new RuntimeException("The modules can't be loaded because the " + this.getClass().getSimpleName() + " is not in an idle status.");
+        }
+
+        modules.values().forEach(Module::load);
+        moduleStatus = EModuleStatus.LOADED;
+    }
+
+    /**
+     * Enables all modules.
+     *
+     * @throws RuntimeException if the loader is not in a loaded status.
+     */
+    public void enable() {
+        if (! moduleStatus.equals(EModuleStatus.LOADED)) {
+            throw new RuntimeException("The modules can't be enabled because the " + this.getClass().getSimpleName() + " is not in a loaded status.");
+        }
+
+        for (Module<M> module : modules.values()) {
+            if (! module.enable().Success()) {
+                return;
+            }
+        }
+        moduleStatus = EModuleStatus.ENABLED;
+    }
+
+    /**
+     * Disables all modules.
+     *
+     * @throws RuntimeException if the loader is not in an enabled status.
+     */
+    public void disable() {
+        if (! moduleStatus.equals(EModuleStatus.ENABLED)) {
+            throw new RuntimeException("The modules can't be disabled because the " + this.getClass().getSimpleName() + " is not in an enabled status.");
+        }
+
+        modules.values().forEach(Module::disable);
+        moduleStatus = EModuleStatus.DISABLED;
+    }
+}

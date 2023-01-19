@@ -1,0 +1,4 @@
+name: FronskyFramework
+version: '${version}'
+main: org.example.Main
+api-version: 1.13

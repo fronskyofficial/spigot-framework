@@ -1,0 +1,75 @@
+buildscript {
+    ext {
+        spotBugs_version = '4.5.1'
+    }
+    repositories {
+        mavenCentral()
+        maven {
+            url = 'https://plugins.gradle.org/m2/'
+        }
+    }
+    dependencies {
+        classpath("gradle.plugin.com.github.spotbugs.snom:spotbugs-gradle-plugin:${spotBugs_version}")
+    }
+}
+
+def plugin_name = 'FronskyFramework'
+def plugin_mainClass = 'org.example'
+def plugin_version = '1.0.2'
+def gradle_version = '7.6'
+def spigot_version = '1.13.2'
+def java_version = 1.8
+
+apply plugin: 'java'
+apply plugin: 'com.github.spotbugs'
+
+group = plugin_mainClass
+version = plugin_version
+
+sourceCompatibility = java_version
+targetCompatibility = java_version
+
+repositories {
+    mavenCentral()
+    maven {
+        name = 'spigotmc-repo'
+        url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/'
+    }
+    maven {
+        name = 'sonatype'
+        url = 'https://oss.sonatype.org/content/groups/public/'
+    }
+}
+dependencies {
+    implementation 'com.github.spotbugs:spotbugs-annotations:4.7.3'
+    implementation 'com.h3xstream.findsecbugs:findsecbugs-plugin:1.12.0'
+    compileOnly "org.spigotmc:spigot-api:${spigot_version}-R0.1-SNAPSHOT"
+    compileOnly "com.googlecode.json-simple:json-simple:1.1.1"
+}
+
+jar {
+    manifest {
+        attributes('Created-By': "Gradle ${gradle_version}")
+        attributes('Built-By': 'IntelliJ IDEA')
+        attributes('Developed-By': 'Fronsky')
+        attributes('Build-Jdk': java_version)
+        attributes('Plugin-Name': plugin_name)
+        attributes('Plugin-Version': plugin_version)
+        attributes('Automatic-Plugin-Name': plugin_mainClass)
+    }
+    archiveBaseName.set(plugin_name)
+    archiveVersion.set(plugin_version)
+}
+
+wrapper {
+    gradleVersion = gradle_version
+}
+
+processResources {
+    def props = [version: version]
+    inputs.properties props
+    filteringCharset 'UTF-8'
+    filesMatching('plugin.yml') {
+        expand props
+    }
+}
