@@ -20,7 +20,7 @@ public class ModuleLoader<M extends JavaPlugin> {
      * @throws NullPointerException if the module is null.
      */
     public void prepare(@Nonnull Module<M> module) {
-        if (! modules.containsKey(module.getClass())) {
+        if (!modules.containsKey(module.getClass())) {
             modules.put(module.getClass(), module);
         }
     }
@@ -31,12 +31,12 @@ public class ModuleLoader<M extends JavaPlugin> {
      * @throws RuntimeException if the loader is not in an idle status.
      */
     public void load() {
-        if (! moduleStatus.equals(EModuleStatus.IDLE)) {
+        if (!moduleStatus.equals(EModuleStatus.IDLE)) {
             throw new RuntimeException("The modules can't be loaded because the " + this.getClass().getSimpleName() + " is not in an idle status.");
         }
 
-        modules.values().forEach(Module::load);
         moduleStatus = EModuleStatus.LOADED;
+        modules.values().forEach(Module::load);
     }
 
     /**
@@ -45,16 +45,16 @@ public class ModuleLoader<M extends JavaPlugin> {
      * @throws RuntimeException if the loader is not in a loaded status.
      */
     public void enable() {
-        if (! moduleStatus.equals(EModuleStatus.LOADED)) {
+        if (!moduleStatus.equals(EModuleStatus.LOADED)) {
             throw new RuntimeException("The modules can't be enabled because the " + this.getClass().getSimpleName() + " is not in a loaded status.");
         }
 
+        moduleStatus = EModuleStatus.ENABLED;
         for (Module<M> module : modules.values()) {
             if (! module.enable().Success()) {
                 return;
             }
         }
-        moduleStatus = EModuleStatus.ENABLED;
     }
 
     /**
@@ -63,11 +63,11 @@ public class ModuleLoader<M extends JavaPlugin> {
      * @throws RuntimeException if the loader is not in an enabled status.
      */
     public void disable() {
-        if (! moduleStatus.equals(EModuleStatus.ENABLED)) {
+        if (!moduleStatus.equals(EModuleStatus.ENABLED)) {
             throw new RuntimeException("The modules can't be disabled because the " + this.getClass().getSimpleName() + " is not in an enabled status.");
         }
 
-        modules.values().forEach(Module::disable);
         moduleStatus = EModuleStatus.DISABLED;
+        modules.values().forEach(Module::disable);
     }
 }

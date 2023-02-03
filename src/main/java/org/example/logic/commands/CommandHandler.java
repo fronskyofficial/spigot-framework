@@ -1,12 +1,12 @@
 package org.example.logic.commands;
 
-import org.bukkit.ChatColor;
+import lombok.Setter;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.example.logic.enums.ELanguage;
 import org.example.logic.interfaces.ICommandHandler;
 import org.example.logic.logging.Logger;
-import org.example.logic.results.Result;
 
 import javax.annotation.Nonnull;
 import java.lang.reflect.InvocationTargetException;
@@ -18,23 +18,19 @@ public abstract class CommandHandler extends Command implements ICommandHandler 
 
     private final String commandPermission;
     private Player player = null;
-    private List<String> subcommands = new LinkedList<>();
+    @Setter
+    private List<String> subcommands;
 
     public CommandHandler(String commandName, String commandPermission) {
         super(commandName);
         setPermission(commandPermission);
 
         this.commandPermission = commandPermission;
+        subcommands = new LinkedList<>();
     }
 
-    public void setSubcommands(List<String> subcommands) {
-        this.subcommands = subcommands;
-    }
     public void addSubcommand(String subcommand) {
         subcommands.add(subcommand);
-    }
-    public void clearSubcommands() {
-        subcommands.clear();
     }
 
     @Override
@@ -43,13 +39,13 @@ public abstract class CommandHandler extends Command implements ICommandHandler 
             player = (Player) sender;
         }
 
-        if (! subcommands.isEmpty()) {
-            String subcommand = getSubcommand(args).Value();
-            if (subcommand != null) {
-                if (hasPermission(player, commandPermission + "." + subcommand).Success()) {
+        if (!subcommands.isEmpty()) {
+            String subcommand = getSubcommand(args);
+            if (!subcommand.isEmpty()) {
+                if (hasPermission(player, commandPermission + "." + subcommand)) {
                     try {
                         Method method = this.getClass().getMethod(subcommand, CommandSender.class, String.class, String[].class);
-                        method.invoke(this, sender, commandLabel, getSubcommandArgs(args).Value());
+                        method.invoke(this, sender, commandLabel, getSubcommandArgs(args));
                         return true;
                     } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
                         Logger.logWarning(e.getMessage());
@@ -58,7 +54,7 @@ public abstract class CommandHandler extends Command implements ICommandHandler 
             }
         }
 
-        if (! hasPermission(player, commandPermission).Success()) {
+        if (!hasPermission(player, commandPermission)) {
             return true;
         }
         onCommand(sender, commandLabel, args);
@@ -70,60 +66,56 @@ public abstract class CommandHandler extends Command implements ICommandHandler 
      *
      * @param player the player to check for permissions.
      * @param permission the permission to check for.
-     * @return Result containing the result, it will be OK("Player has the required permissions.") if the player has the required permission,
-     *         otherwise it will contain a Fail with an exception message.
+     * @return boolean false if the player doesn't have the given permission otherwise true.
      */
-    protected Result<String> hasPermission(Player player, String permission) {
+    protected boolean hasPermission(Player player, String permission) {
         if (player == null) {
-            return Result.Ok("Player object is missing, in this case the command should be executed by the console. If not, take appropriate action.");
+            return true;
         }
         if (permission.isEmpty()) {
             Logger.logError("Permissions haven't been set. Make sure to initialize them correctly.");
-            return Result.Fail(new Exception("Permissions haven't been set. Make sure to initialize them correctly."));
+            return false;
         }
 
         if (! player.hasPermission(permission)) {
-            player.sendMessage(ChatColor.RED + "You do not have the necessary permissions to perform this action. " +
-                                "please contact your system administrator for assistance.");
-            return Result.Fail(new Exception("Player doesn't have the necessary permissions to perform this action."));
+            player.sendMessage(ELanguage.noPermission.getMessage());
+            return false;
         }
-        return Result.Ok("Player has the required permissions.");
+        return true;
     }
 
     /**
      * Get the subcommand from the given arguments.
      *
      * @param args the command arguments.
-     * @return Result containing the result, it will be OK(subcommand) if a subcommand is found,
-     *         otherwise it will contain a Fail with an exception message.
+     * @return String containing the result subCommand, if the subCommand can't be found then an empty string.
      */
-    private Result<String> getSubcommand(String[] args) {
+    private String getSubcommand(String[] args) {
         if (args.length == 0 || subcommands.isEmpty()) {
-            return Result.Fail(new Exception("Either the number of arguments or the list of subcommands is missing."));
+            return "";
         }
 
         for (String subcommand : subcommands) {
             if (subcommand.equalsIgnoreCase(args[0])) {
-                return Result.Ok(subcommand);
+                return subcommand;
             }
         }
-        return Result.Fail(new Exception("Subcommand was not found."));
+        return "";
     }
 
     /**
      * Get the arguments for the subcommand.
      *
      * @param args the command arguments.
-     * @return Result containing the result, it will be OK(subcommandArgs) if a subcommand is found,
-     *         otherwise it will contain a Fail with an exception message.
+     * @return String[] containing an array of all args for the subCommand, empty array if it has no args.
      */
-    private Result<String[]> getSubcommandArgs(String[] args) {
+    private String[] getSubcommandArgs(String[] args) {
         if (args.length == 0 || subcommands.isEmpty()) {
-            return Result.Fail(new Exception("Either the number of arguments or the list of subcommands is missing."));
+            return new String[0];
         }
 
         String[] subcommandArgs = new String[args.length - 1];
         System.arraycopy(args, 1, subcommandArgs, 0, subcommandArgs.length);
-        return Result.Ok(subcommandArgs);
+        return subcommandArgs;
     }
 }

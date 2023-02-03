@@ -9,7 +9,6 @@ public class Main extends JavaPlugin {
 
     @Override
     public void onLoad() {
-//        moduleLoader.prepare(new FirstModule(this));
         moduleLoader.load();
         System.out.println("Plugin loaded.");
     }

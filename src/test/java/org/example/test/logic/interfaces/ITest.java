@@ -7,7 +7,7 @@ public interface ITest {
     /**
      * Runs test cases and return the test results
      *
-     * @return The test results
+     * @return Result<String> object containing the result of the test and any exception message if the test failed.
      */
     public Result<String> Tests();
 }

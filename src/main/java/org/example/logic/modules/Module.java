@@ -1,5 +1,6 @@
 package org.example.logic.modules;
 
+import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandMap;
 import org.bukkit.event.HandlerList;
@@ -19,10 +20,12 @@ import java.util.function.Supplier;
 public abstract class Module<M extends JavaPlugin> implements IModule {
 
     private final M mainClass;
+    @Getter
     private final String moduleName;
-    private final List<EventHandler> events = new LinkedList<>();
-    private final List<CommandHandler> commands = new LinkedList<>();
+    private final List<EventHandler> events;
+    private final List<CommandHandler> commands;
     private final CommandMap commandMap;
+    @Getter
     private EModuleStatus moduleStatus = EModuleStatus.IDLE;
 
     public Module(M mainClass) {
@@ -41,13 +44,8 @@ public abstract class Module<M extends JavaPlugin> implements IModule {
         }
 
         commandMap = _commandMap;
-    }
-
-    public String getModuleName() {
-        return moduleName;
-    }
-    public EModuleStatus getModuleStatus() {
-        return moduleStatus;
+        events = new LinkedList<>();
+        commands = new LinkedList<>();
     }
 
     /**
@@ -56,13 +54,13 @@ public abstract class Module<M extends JavaPlugin> implements IModule {
      * @throws RuntimeException if an attempt is made to load the module while it is already loaded.
      */
     public void load() {
-        if (! moduleStatus.equals(EModuleStatus.IDLE)) {
+        if (!moduleStatus.equals(EModuleStatus.IDLE)) {
             throw new RuntimeException("An attempt was made to load the " + moduleName + " while it was already loaded.");
         }
 
         Logger.logInfo("Loading " + moduleName + "...");
-        onLoad();
         moduleStatus = EModuleStatus.LOADED;
+        onLoad();
     }
 
     /**
@@ -73,16 +71,17 @@ public abstract class Module<M extends JavaPlugin> implements IModule {
      * @throws RuntimeException if the module is not in a loaded status.
      */
     public Result<String> enable() {
-        if (! moduleStatus.equals(EModuleStatus.LOADED)) {
+        if (!moduleStatus.equals(EModuleStatus.LOADED)) {
             throw new RuntimeException("An attempt was made to enable the " + moduleName + " while it was not loaded.");
         }
 
         Logger.logInfo("Enabling " + moduleName + "...");
+        moduleStatus = EModuleStatus.ENABLED;
         try {
             onEnable();
-            moduleStatus = EModuleStatus.ENABLED;
             return Result.Ok("Module has been successfully enabled.");
         } catch (Exception e) {
+            moduleStatus = EModuleStatus.DISABLED;
             Logger.logError(e.getMessage());
             Bukkit.shutdown();
             return Result.Fail(e);
@@ -95,12 +94,13 @@ public abstract class Module<M extends JavaPlugin> implements IModule {
      * @throws RuntimeException if an attempt is made to disable the module while it is not enabled.
      */
     public void disable() {
-        if (! moduleStatus.equals(EModuleStatus.ENABLED)) {
+        if (!moduleStatus.equals(EModuleStatus.ENABLED)) {
             throw new RuntimeException("An attempt was made to disable the " + moduleName + " while it was not enabled.");
         }
 
         int amountOfComponents = events.size() + commands.size();
         Logger.logInfo("Disabling " + moduleName + ", removing " + amountOfComponents + " components...");
+        moduleStatus = EModuleStatus.DISABLED;
 
         events.forEach(HandlerList::unregisterAll);
         for (CommandHandler commandHandler : commands) {
@@ -110,7 +110,6 @@ public abstract class Module<M extends JavaPlugin> implements IModule {
         events.clear();
         commands.clear();
         onDisable();
-        moduleStatus = EModuleStatus.DISABLED;
     }
 
     /**
@@ -120,7 +119,7 @@ public abstract class Module<M extends JavaPlugin> implements IModule {
      * @throws RuntimeException if the module is not enabled.
      */
     protected void event(@Nonnull Supplier<? extends EventHandler> supplier) {
-        if (! moduleStatus.equals(EModuleStatus.ENABLED)) {
+        if (!moduleStatus.equals(EModuleStatus.ENABLED)) {
             throw new RuntimeException("The " + moduleName + " is not enabled.");
         }
 
@@ -136,7 +135,7 @@ public abstract class Module<M extends JavaPlugin> implements IModule {
      * @throws RuntimeException if the module is not enabled.
      */
     protected void command(@Nonnull Supplier<? extends CommandHandler> supplier) {
-        if (! moduleStatus.equals(EModuleStatus.ENABLED)) {
+        if (!moduleStatus.equals(EModuleStatus.ENABLED)) {
             throw new RuntimeException("The " + moduleName + " is not enabled.");
         }
 
