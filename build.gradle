@@ -1,6 +1,9 @@
+import proguard.gradle.ProGuardTask
+
 buildscript {
     ext {
         spotBugs_version = '4.5.1'
+        proguard_version = '7.3.1'
     }
     repositories {
         mavenCentral()
@@ -10,12 +13,13 @@ buildscript {
     }
     dependencies {
         classpath("gradle.plugin.com.github.spotbugs.snom:spotbugs-gradle-plugin:${spotBugs_version}")
+        classpath("com.guardsquare:proguard-gradle:${proguard_version}")
     }
 }
 
 def plugin_name = 'FronskyFramework'
 def plugin_mainClass = 'org.example'
-def plugin_version = '1.0.2'
+def plugin_version = '1.0.4'
 def gradle_version = '7.6'
 def spigot_version = '1.13.2'
 def java_version = 1.8
@@ -43,8 +47,13 @@ repositories {
 dependencies {
     implementation 'com.github.spotbugs:spotbugs-annotations:4.7.3'
     implementation 'com.h3xstream.findsecbugs:findsecbugs-plugin:1.12.0'
+    implementation 'com.guardsquare:proguard-gradle:7.3.1'
     compileOnly "org.spigotmc:spigot-api:${spigot_version}-R0.1-SNAPSHOT"
-    compileOnly "com.googlecode.json-simple:json-simple:1.1.1"
+    compileOnly 'com.googlecode.json-simple:json-simple:1.1.1'
+    compileOnly 'org.projectlombok:lombok:1.18.24'
+    annotationProcessor 'org.projectlombok:lombok:1.18.24'
+    testCompileOnly 'org.projectlombok:lombok:1.18.24'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.24'
 }
 
 jar {
@@ -72,4 +81,8 @@ processResources {
     filesMatching('plugin.yml') {
         expand props
     }
+}
+
+tasks.register('ProguardTask', ProGuardTask) {
+    configuration 'proguard.cfg'
 }
