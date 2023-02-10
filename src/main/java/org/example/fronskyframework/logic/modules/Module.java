@@ -4,17 +4,18 @@ import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandMap;
 import org.bukkit.event.HandlerList;
+import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.example.fronskyframework.logic.commands.CommandHandler;
 import org.example.fronskyframework.logic.enums.EModuleStatus;
-import org.example.fronskyframework.logic.events.EventHandler;
 import org.example.fronskyframework.logic.interfaces.IModule;
 import org.example.fronskyframework.logic.logging.Logger;
 import org.example.fronskyframework.logic.results.Result;
 
 import javax.annotation.Nonnull;
 import java.lang.reflect.InvocationTargetException;
-import java.util.*;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.function.Supplier;
 
 public abstract class Module<M extends JavaPlugin> implements IModule {
@@ -22,7 +23,7 @@ public abstract class Module<M extends JavaPlugin> implements IModule {
     private final M mainClass;
     @Getter
     private final String moduleName;
-    private final List<EventHandler> events;
+    private final List<Listener> events;
     private final List<CommandHandler> commands;
     private final CommandMap commandMap;
     @Getter
@@ -118,14 +119,14 @@ public abstract class Module<M extends JavaPlugin> implements IModule {
      * @param supplier a supplier that provides the event handler.
      * @throws RuntimeException if the module is not enabled.
      */
-    protected void event(@Nonnull Supplier<? extends EventHandler> supplier) {
+    protected void event(@Nonnull Supplier<? extends Listener> supplier) {
         if (!moduleStatus.equals(EModuleStatus.ENABLED)) {
             throw new RuntimeException("The " + moduleName + " is not enabled.");
         }
 
-        EventHandler eventHandler = supplier.get();
-        Bukkit.getServer().getPluginManager().registerEvents(eventHandler, mainClass);
-        events.add(eventHandler);
+        Listener listener = supplier.get();
+        Bukkit.getServer().getPluginManager().registerEvents(listener, mainClass);
+        events.add(listener);
     }
 
     /**
