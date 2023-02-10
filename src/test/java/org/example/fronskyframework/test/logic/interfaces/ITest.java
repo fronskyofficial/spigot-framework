@@ -1,4 +1,4 @@
-package org.example.test.logic.interfaces;
+package org.example.fronskyframework.test.logic.interfaces;
 
 import org.example.fronskyframework.logic.results.Result;
 

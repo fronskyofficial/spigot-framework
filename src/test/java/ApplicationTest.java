@@ -1,4 +1,4 @@
-import org.example.test.Main;
+import org.example.fronskyframework.test.Main;
 
 public class ApplicationTest {
 

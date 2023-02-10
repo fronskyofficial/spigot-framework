@@ -1,7 +1,7 @@
-package org.example.test.logic.tests;
+package org.example.fronskyframework.test.logic.tests;
 
 import org.example.fronskyframework.logic.results.Result;
-import org.example.test.logic.interfaces.ITest;
+import org.example.fronskyframework.test.logic.interfaces.ITest;
 
 import javax.annotation.Nonnull;
 import java.util.HashMap;
