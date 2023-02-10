@@ -1,10 +1,10 @@
-package org.example.logic.files;
+package org.example.fronskyframework.logic.files;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.example.Main;
-import org.example.logic.interfaces.IFile;
-import org.example.logic.logging.Logger;
+import org.example.fronskyframework.Main;
+import org.example.fronskyframework.logic.interfaces.IFile;
+import org.example.fronskyframework.logic.logging.Logger;
 
 import java.io.File;
 import java.io.IOException;

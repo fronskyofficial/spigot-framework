@@ -1,4 +1,4 @@
-package org.example.logic.interfaces;
+package org.example.fronskyframework.logic.interfaces;
 
 import org.bukkit.configuration.file.FileConfiguration;
 

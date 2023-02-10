@@ -1,4 +1,4 @@
-package org.example.logic.logging;
+package org.example.fronskyframework.logic.logging;
 
 import org.bukkit.Bukkit;
 

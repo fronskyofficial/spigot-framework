@@ -1,8 +1,8 @@
-package org.example.logic.modules;
+package org.example.fronskyframework.logic.modules;
 
 import org.bukkit.plugin.java.JavaPlugin;
-import org.example.logic.enums.EModuleStatus;
-import org.example.logic.interfaces.IModule;
+import org.example.fronskyframework.logic.enums.EModuleStatus;
+import org.example.fronskyframework.logic.interfaces.IModule;
 
 import javax.annotation.Nonnull;
 import java.util.HashMap;

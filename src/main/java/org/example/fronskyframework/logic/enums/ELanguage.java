@@ -1,4 +1,4 @@
-package org.example.logic.enums;
+package org.example.fronskyframework.logic.enums;
 
 import org.bukkit.ChatColor;
 

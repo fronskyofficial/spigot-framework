@@ -1,4 +1,7 @@
-name: FronskyFramework
+name: '${name}'
 version: '${version}'
-main: org.example.Main
+main: '${main}'
 api-version: 1.13
+authors: [Fronsky]
+website: fronsky.com
+description: This is the FronskyFramework.

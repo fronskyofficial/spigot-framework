@@ -1,6 +1,6 @@
 package org.example.test.logic.tests;
 
-import org.example.logic.results.Result;
+import org.example.fronskyframework.logic.results.Result;
 import org.example.test.logic.interfaces.ITest;
 
 import javax.annotation.Nonnull;

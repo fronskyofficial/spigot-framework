@@ -1,4 +1,4 @@
-package org.example.logic.events;
+package org.example.fronskyframework.logic.events;
 
 import org.bukkit.event.Listener;
 

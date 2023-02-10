@@ -1,4 +1,4 @@
-package org.example.logic.results;
+package org.example.fronskyframework.logic.results;
 
 public class Result<T> {
 

@@ -1,6 +1,6 @@
 package org.example.test.logic.interfaces;
 
-import org.example.logic.results.Result;
+import org.example.fronskyframework.logic.results.Result;
 
 public interface ITest {
 

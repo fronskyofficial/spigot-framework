@@ -1,16 +1,16 @@
-package org.example.logic.modules;
+package org.example.fronskyframework.logic.modules;
 
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandMap;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.example.logic.commands.CommandHandler;
-import org.example.logic.enums.EModuleStatus;
-import org.example.logic.events.EventHandler;
-import org.example.logic.interfaces.IModule;
-import org.example.logic.logging.Logger;
-import org.example.logic.results.Result;
+import org.example.fronskyframework.logic.commands.CommandHandler;
+import org.example.fronskyframework.logic.enums.EModuleStatus;
+import org.example.fronskyframework.logic.events.EventHandler;
+import org.example.fronskyframework.logic.interfaces.IModule;
+import org.example.fronskyframework.logic.logging.Logger;
+import org.example.fronskyframework.logic.results.Result;
 
 import javax.annotation.Nonnull;
 import java.lang.reflect.InvocationTargetException;
