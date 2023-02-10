@@ -1,12 +1,12 @@
-package org.example.logic.commands;
+package org.example.fronskyframework.logic.commands;
 
 import lombok.Setter;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.example.logic.enums.ELanguage;
-import org.example.logic.interfaces.ICommandHandler;
-import org.example.logic.logging.Logger;
+import org.example.fronskyframework.logic.enums.ELanguage;
+import org.example.fronskyframework.logic.interfaces.ICommandHandler;
+import org.example.fronskyframework.logic.logging.Logger;
 
 import javax.annotation.Nonnull;
 import java.lang.reflect.InvocationTargetException;

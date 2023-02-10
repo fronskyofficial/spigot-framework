@@ -1,7 +1,7 @@
-package org.example;
+package org.example.fronskyframework;
 
 import org.bukkit.plugin.java.JavaPlugin;
-import org.example.logic.modules.ModuleLoader;
+import org.example.fronskyframework.logic.modules.ModuleLoader;
 
 public class Main extends JavaPlugin {
 

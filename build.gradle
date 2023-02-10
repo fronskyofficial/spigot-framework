@@ -2,8 +2,8 @@ import proguard.gradle.ProGuardTask
 
 buildscript {
     ext {
-        spotBugs_version = '4.5.1'
-        proguard_version = '7.3.1'
+        SpotBugs = '4.5.1'
+        ProGuard = '7.3.1'
     }
     repositories {
         mavenCentral()
@@ -12,70 +12,87 @@ buildscript {
         }
     }
     dependencies {
-        classpath("gradle.plugin.com.github.spotbugs.snom:spotbugs-gradle-plugin:${spotBugs_version}")
-        classpath("com.guardsquare:proguard-gradle:${proguard_version}")
+        classpath("gradle.plugin.com.github.spotbugs.snom:spotbugs-gradle-plugin:${SpotBugs}")
+        classpath("com.guardsquare:proguard-gradle:${ProGuard}")
     }
 }
-
-def plugin_name = 'FronskyFramework'
-def plugin_mainClass = 'org.example'
-def plugin_version = '1.0.4'
-def gradle_version = '7.6'
-def spigot_version = '1.13.2'
-def java_version = 1.8
 
 apply plugin: 'java'
 apply plugin: 'com.github.spotbugs'
 
-group = plugin_mainClass
-version = plugin_version
+def pluginName = "FronskyFramework"
+def pluginGroup = 'org.example'
+def pluginVersion = '1.0.0'
+def spigotVersion = '1.13.2'
 
-sourceCompatibility = java_version
-targetCompatibility = java_version
+group = pluginGroup
+version = pluginVersion
 
 repositories {
     mavenCentral()
     maven {
         name = 'spigotmc-repo'
         url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/'
+
+        content {
+            includeGroup 'org.bukkit'
+            includeGroup 'org.spigotmc'
+        }
     }
-    maven {
-        name = 'sonatype'
-        url = 'https://oss.sonatype.org/content/groups/public/'
-    }
+    maven { url = 'https://oss.sonatype.org/content/repositories/snapshots' }
+    maven { url = 'https://oss.sonatype.org/content/repositories/central' }
 }
+
 dependencies {
+    compileOnly "org.spigotmc:spigot-api:${spigotVersion}-R0.1-SNAPSHOT"
+    compileOnly 'org.projectlombok:lombok:1.18.24'
+
     implementation 'com.github.spotbugs:spotbugs-annotations:4.7.3'
     implementation 'com.h3xstream.findsecbugs:findsecbugs-plugin:1.12.0'
     implementation 'com.guardsquare:proguard-gradle:7.3.1'
-    compileOnly "org.spigotmc:spigot-api:${spigot_version}-R0.1-SNAPSHOT"
-    compileOnly 'com.googlecode.json-simple:json-simple:1.1.1'
-    compileOnly 'org.projectlombok:lombok:1.18.24'
+    implementation 'com.google.code.gson:gson:2.10.1'
+
     annotationProcessor 'org.projectlombok:lombok:1.18.24'
     testCompileOnly 'org.projectlombok:lombok:1.18.24'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.24'
 }
 
+def targetJavaVersion = 8
+java {
+    def javaVersion = JavaVersion.toVersion(targetJavaVersion)
+    sourceCompatibility = javaVersion
+    targetCompatibility = javaVersion
+    if (JavaVersion.current() < javaVersion) {
+        toolchain.languageVersion = JavaLanguageVersion.of(targetJavaVersion)
+    }
+}
+
 jar {
     manifest {
-        attributes('Created-By': "Gradle ${gradle_version}")
+        attributes('Created-By': "Gradle ${getGradle().getGradleVersion()}")
         attributes('Built-By': 'IntelliJ IDEA')
         attributes('Developed-By': 'Fronsky')
-        attributes('Build-Jdk': java_version)
-        attributes('Plugin-Name': plugin_name)
-        attributes('Plugin-Version': plugin_version)
-        attributes('Automatic-Plugin-Name': plugin_mainClass)
+        attributes('Build-JDK': targetJavaVersion)
+        attributes('Plugin-Name': pluginName)
+        attributes('Plugin-Version': pluginVersion)
+        attributes('Automatic-Plugin-Name': pluginGroup)
     }
-    archiveBaseName.set(plugin_name)
-    archiveVersion.set(plugin_version)
+    archiveBaseName.set(pluginName)
+    archiveVersion.set(pluginVersion)
 }
 
 wrapper {
-    gradleVersion = gradle_version
+    gradleVersion = '7.6'
+}
+
+tasks.withType(JavaCompile).configureEach {
+    if (targetJavaVersion >= 10 || JavaVersion.current().isJava10Compatible()) {
+        options.release = targetJavaVersion
+    }
 }
 
 processResources {
-    def props = [version: version]
+    def props = [name: pluginName, main: pluginGroup + ".${pluginName.toLowerCase()}.Main", version: pluginVersion]
     inputs.properties props
     filteringCharset 'UTF-8'
     filesMatching('plugin.yml') {

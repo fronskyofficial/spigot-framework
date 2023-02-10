@@ -1,6 +1,6 @@
-package org.example.test;
+package org.example.fronskyframework.test;
 
-import org.example.test.logic.tests.TestLoader;
+import org.example.fronskyframework.test.logic.tests.TestLoader;
 
 public class Main {
 
