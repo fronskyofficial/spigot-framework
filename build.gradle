@@ -1,10 +1,6 @@
 import proguard.gradle.ProGuardTask
 
 buildscript {
-    ext {
-        SpotBugs = '4.5.1'
-        ProGuard = '7.3.1'
-    }
     repositories {
         mavenCentral()
         maven {
@@ -12,8 +8,8 @@ buildscript {
         }
     }
     dependencies {
-        classpath("gradle.plugin.com.github.spotbugs.snom:spotbugs-gradle-plugin:${SpotBugs}")
-        classpath("com.guardsquare:proguard-gradle:${ProGuard}")
+        classpath('gradle.plugin.com.github.spotbugs.snom:spotbugs-gradle-plugin:4.5.1')
+        classpath('com.guardsquare:proguard-gradle:7.3.1')
     }
 }
 
@@ -75,7 +71,7 @@ jar {
         attributes('Build-JDK': targetJavaVersion)
         attributes('Plugin-Name': pluginName)
         attributes('Plugin-Version': pluginVersion)
-        attributes('Automatic-Plugin-Name': pluginGroup)
+        attributes('Automatic-Plugin-Name': "${pluginGroup}.${pluginName.toLowerCase()}.Main")
     }
     archiveBaseName.set(pluginName)
     archiveVersion.set(pluginVersion)
@@ -92,7 +88,7 @@ tasks.withType(JavaCompile).configureEach {
 }
 
 processResources {
-    def props = [name: pluginName, main: pluginGroup + ".${pluginName.toLowerCase()}.Main", version: pluginVersion]
+    def props = [name: pluginName, main: "${pluginGroup}.${pluginName.toLowerCase()}.Main", version: pluginVersion]
     inputs.properties props
     filteringCharset 'UTF-8'
     filesMatching('plugin.yml') {
