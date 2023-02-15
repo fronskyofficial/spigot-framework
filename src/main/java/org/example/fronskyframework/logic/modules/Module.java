@@ -11,8 +11,8 @@ import org.example.fronskyframework.logic.enums.EModuleStatus;
 import org.example.fronskyframework.logic.interfaces.IModule;
 import org.example.fronskyframework.logic.logging.Logger;
 import org.example.fronskyframework.logic.results.Result;
+import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
 import java.lang.reflect.InvocationTargetException;
 import java.util.LinkedList;
 import java.util.List;
@@ -29,22 +29,22 @@ public abstract class Module<M extends JavaPlugin> implements IModule {
     @Getter
     private EModuleStatus moduleStatus = EModuleStatus.IDLE;
 
-    public Module(M mainClass) {
+    protected Module(M mainClass) {
         this.mainClass = mainClass;
         moduleName = this.getClass().getSimpleName();
 
-        CommandMap _commandMap = null;
+        CommandMap tempCommandMap = null;
         try {
-            _commandMap = (CommandMap) Bukkit.getServer().getClass().getDeclaredMethod("getCommandMap").invoke(Bukkit.getServer());
+            tempCommandMap = (CommandMap) Bukkit.getServer().getClass().getDeclaredMethod("getCommandMap").invoke(Bukkit.getServer());
         } catch (InvocationTargetException | IllegalAccessException | NoSuchMethodException e) {
             Logger.logError(e.getMessage());
         }
 
-        if (_commandMap == null) {
+        if (tempCommandMap == null) {
             Bukkit.shutdown();
         }
 
-        commandMap = _commandMap;
+        commandMap = tempCommandMap;
         events = new LinkedList<>();
         commands = new LinkedList<>();
     }
@@ -119,7 +119,7 @@ public abstract class Module<M extends JavaPlugin> implements IModule {
      * @param supplier a supplier that provides the event handler.
      * @throws RuntimeException if the module is not enabled.
      */
-    protected void event(@Nonnull Supplier<? extends Listener> supplier) {
+    protected void event(@NotNull Supplier<? extends Listener> supplier) {
         if (!moduleStatus.equals(EModuleStatus.ENABLED)) {
             throw new RuntimeException("The " + moduleName + " is not enabled.");
         }
@@ -135,7 +135,7 @@ public abstract class Module<M extends JavaPlugin> implements IModule {
      * @param supplier a supplier that provides the command handler.
      * @throws RuntimeException if the module is not enabled.
      */
-    protected void command(@Nonnull Supplier<? extends CommandHandler> supplier) {
+    protected void command(@NotNull Supplier<? extends CommandHandler> supplier) {
         if (!moduleStatus.equals(EModuleStatus.ENABLED)) {
             throw new RuntimeException("The " + moduleName + " is not enabled.");
         }

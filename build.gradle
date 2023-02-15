@@ -8,13 +8,11 @@ buildscript {
         }
     }
     dependencies {
-        classpath('gradle.plugin.com.github.spotbugs.snom:spotbugs-gradle-plugin:4.5.1')
         classpath('com.guardsquare:proguard-gradle:7.3.1')
     }
 }
 
 apply plugin: 'java'
-apply plugin: 'com.github.spotbugs'
 
 def pluginName = "FronskyFramework"
 def pluginGroup = 'org.example'
@@ -43,8 +41,6 @@ dependencies {
     compileOnly "org.spigotmc:spigot-api:${spigotVersion}-R0.1-SNAPSHOT"
     compileOnly 'org.projectlombok:lombok:1.18.24'
 
-    implementation 'com.github.spotbugs:spotbugs-annotations:4.7.3'
-    implementation 'com.h3xstream.findsecbugs:findsecbugs-plugin:1.12.0'
     implementation 'com.guardsquare:proguard-gradle:7.3.1'
     implementation 'com.google.code.gson:gson:2.10.1'
 

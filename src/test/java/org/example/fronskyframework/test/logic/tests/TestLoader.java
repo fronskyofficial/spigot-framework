@@ -2,8 +2,8 @@ package org.example.fronskyframework.test.logic.tests;
 
 import org.example.fronskyframework.logic.results.Result;
 import org.example.fronskyframework.test.logic.interfaces.ITest;
+import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,7 +18,7 @@ public class TestLoader {
      * @param test The test to be stored in the map
      * @throws NullPointerException if the test is null
      */
-    public void prepare(@Nonnull ITest test) {
+    public void prepare(@NotNull ITest test) {
         if (!tests.containsKey(test.getClass())) {
             tests.put(test.getClass(), test);
         }

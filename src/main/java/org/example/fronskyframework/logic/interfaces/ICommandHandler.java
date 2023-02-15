@@ -1,8 +1,7 @@
 package org.example.fronskyframework.logic.interfaces;
 
 import org.bukkit.command.CommandSender;
-
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 
 public interface ICommandHandler {
 
@@ -14,5 +13,5 @@ public interface ICommandHandler {
      * @param args All arguments passed to the command, split via ' '.
      * @throws NullPointerException if sender, commandLabel or args is null.
      */
-    public void onCommand(@Nonnull CommandSender sender, @Nonnull String commandLabel, @Nonnull String[] args);
+    public void onCommand(@NotNull CommandSender sender, @NotNull String commandLabel, @NotNull String[] args);
 }
