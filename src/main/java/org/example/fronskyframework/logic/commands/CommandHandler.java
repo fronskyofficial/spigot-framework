@@ -1,5 +1,6 @@
 package org.example.fronskyframework.logic.commands;
 
+import org.jetbrains.annotations.NotNull;
 import lombok.Setter;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -8,7 +9,6 @@ import org.example.fronskyframework.logic.enums.ELanguage;
 import org.example.fronskyframework.logic.interfaces.ICommandHandler;
 import org.example.fronskyframework.logic.logging.Logger;
 
-import javax.annotation.Nonnull;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.LinkedList;
@@ -21,7 +21,7 @@ public abstract class CommandHandler extends Command implements ICommandHandler 
     @Setter
     private List<String> subcommands;
 
-    public CommandHandler(String commandName, String commandPermission) {
+    protected CommandHandler(String commandName, String commandPermission) {
         super(commandName);
         setPermission(commandPermission);
 
@@ -34,28 +34,26 @@ public abstract class CommandHandler extends Command implements ICommandHandler 
     }
 
     @Override
-    public boolean execute(@Nonnull CommandSender sender, @Nonnull String commandLabel, @Nonnull String[] args) {
+    public boolean execute(@NotNull CommandSender sender, @NotNull String commandLabel, @NotNull String[] args) {
         if (sender instanceof Player) {
             player = (Player) sender;
         }
 
         if (!subcommands.isEmpty()) {
             String subcommand = getSubcommand(args);
-            if (!subcommand.isEmpty()) {
-                if (hasPermission(player, commandPermission + "." + subcommand)) {
-                    try {
-                        Method method = this.getClass().getMethod(subcommand, CommandSender.class, String.class, String[].class);
-                        method.invoke(this, sender, commandLabel, getSubcommandArgs(args));
-                        return true;
-                    } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-                        Logger.logWarning(e.getMessage());
-                    }
+            if (!subcommand.isEmpty() && hasPermission(player, commandPermission + "." + subcommand)) {
+                try {
+                    Method method = this.getClass().getMethod(subcommand, CommandSender.class, String.class, String[].class);
+                    method.invoke(this, sender, commandLabel, getSubcommandArgs(args));
+                    return true;
+                } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+                    Logger.logWarning(e.getMessage());
                 }
             }
         }
 
         if (!hasPermission(player, commandPermission)) {
-            return true;
+            return false;
         }
         onCommand(sender, commandLabel, args);
         return true;
@@ -78,7 +76,7 @@ public abstract class CommandHandler extends Command implements ICommandHandler 
         }
 
         if (! player.hasPermission(permission)) {
-            player.sendMessage(ELanguage.noPermission.getMessage());
+            player.sendMessage(ELanguage.NOPERMISSION.getMessage());
             return false;
         }
         return true;

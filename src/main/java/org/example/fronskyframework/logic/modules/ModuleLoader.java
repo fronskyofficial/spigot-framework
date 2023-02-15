@@ -3,8 +3,8 @@ package org.example.fronskyframework.logic.modules;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.example.fronskyframework.logic.enums.EModuleStatus;
 import org.example.fronskyframework.logic.interfaces.IModule;
+import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,7 +19,7 @@ public class ModuleLoader<M extends JavaPlugin> {
      * @param module The module to prepare.
      * @throws NullPointerException if the module is null.
      */
-    public void prepare(@Nonnull Module<M> module) {
+    public void prepare(@NotNull Module<M> module) {
         if (!modules.containsKey(module.getClass())) {
             modules.put(module.getClass(), module);
         }

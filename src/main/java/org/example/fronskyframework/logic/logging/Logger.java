@@ -1,10 +1,14 @@
 package org.example.fronskyframework.logic.logging;
 
-import org.bukkit.Bukkit;
-
 import java.util.logging.Level;
 
+import static org.bukkit.Bukkit.*;
+
 public class Logger {
+
+    private Logger() {
+        throw new IllegalStateException("Utility class");
+    }
 
     /**
      * Logs a message with the specified log level.
@@ -13,7 +17,7 @@ public class Logger {
      * @param message the message.
      */
     public static void log(Level level, String message) {
-        Bukkit.getServer().getLogger().log(level, message);
+        getServer().getLogger().log(level, message);
     }
 
     /**
@@ -22,7 +26,7 @@ public class Logger {
      * @param message the informational message.
      */
     public static void logInfo(String message) {
-        Bukkit.getServer().getLogger().log(Level.INFO, message);
+        getServer().getLogger().log(Level.INFO, message);
     }
 
     /**
@@ -31,7 +35,7 @@ public class Logger {
      * @param message the warning message.
      */
     public static void logWarning(String message) {
-        Bukkit.getServer().getLogger().log(Level.WARNING, message);
+        getServer().getLogger().log(Level.WARNING, message);
     }
 
     /**
@@ -40,7 +44,7 @@ public class Logger {
      * @param message the error message.
      */
     public static void logError(String message) {
-        Bukkit.getServer().getLogger().log(Level.SEVERE, message);
+        getServer().getLogger().log(Level.SEVERE, message);
     }
 
     /**
@@ -51,6 +55,9 @@ public class Logger {
      * @param message the log message.
      */
     public static void logClass(Class<?> clazz, Level level, String message) {
-        Bukkit.getServer().getLogger().log(level, clazz.getName() + ": " + message);
+        String className = clazz.getName();
+        message = className + ": " + message;
+
+        getServer().getLogger().log(level, message);
     }
 }

@@ -4,8 +4,8 @@ import org.bukkit.ChatColor;
 
 public enum ELanguage {
 
-    defaultLanguage("&cPlease choose a language message. The current message is a default message."),
-    noPermission("&xYou do not have permissions to perform this action. Please contact your system administrator for assistance.");
+    DEFAULTLANGUAGE("&cPlease choose a language message. The current message is a default message."),
+    NOPERMISSION("&xYou do not have permissions to perform this action. Please contact your system administrator for assistance.");
 
     private final String message;
 

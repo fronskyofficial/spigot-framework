@@ -1,6 +1,7 @@
 package org.example.fronskyframework;
 
 import org.bukkit.plugin.java.JavaPlugin;
+import org.example.fronskyframework.logic.logging.Logger;
 import org.example.fronskyframework.logic.modules.ModuleLoader;
 
 public class Main extends JavaPlugin {
@@ -10,18 +11,18 @@ public class Main extends JavaPlugin {
     @Override
     public void onLoad() {
         moduleLoader.load();
-        System.out.println("Plugin loaded.");
+        Logger.logInfo("Plugin loaded.");
     }
 
     @Override
     public void onEnable() {
         moduleLoader.enable();
-        System.out.println("Plugin enabled.");
+        Logger.logInfo("Plugin enabled.");
     }
 
     @Override
     public void onDisable() {
         moduleLoader.disable();
-        System.out.println("Plugin disabled.");
+        Logger.logInfo("Plugin disabled.");
     }
 }
