@@ -1,12 +1,11 @@
 # Fronsky Framework
 
-The Fronsky Framework is a tool for creating plugins for Minecraft using the Spigot API. It provides libraries and tools to simplify plugin development and management. The framework is built on top of the Spigot API, which allows developers to create custom gameplay mechanics and features in Minecraft. With the Fronsky Framework, developers can create plugins that modify gameplay, add new features, or create new gameplay modes within the game.
+A tool for creating plugins for Minecraft using the Spigot API. It provides libraries and tools to simplify plugin development and management. The framework is built on top of the Spigot API, which allows developers to create custom gameplay mechanics and features in Minecraft. With the Fronsky Framework, developers can create plugins that modify gameplay, add new features, or create new gameplay modes within the game.
 
 ## Installation
 
 1. Make sure you have [Java JDK 8](https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) installed.
 2. Download and install [IntelliJ IDEA](https://www.jetbrains.com/idea/download/).
-3. Install the [SpotBugs](https://spotbugs.github.io/) plugin for IntelliJ IDEA.
 
 ## Building and Testing
 
