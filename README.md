@@ -1,6 +1,6 @@
-# Fronsky Framework
+# Fronsky Spigot Framework
 
-A tool for creating plugins for Minecraft using the Spigot API. It provides libraries and tools to simplify plugin development and management. The framework is built on top of the Spigot API, which allows developers to create custom gameplay mechanics and features in Minecraft. With the Fronsky Framework, developers can create plugins that modify gameplay, add new features, or create new gameplay modes within the game.
+A tool for creating plugins for Minecraft using the Spigot API. It provides libraries and tools to simplify plugin development and management. The framework is built on top of the Spigot API, which allows developers to create custom gameplay mechanics and features in Minecraft. With the Fronsky Spigot Framework, developers can create plugins that modify gameplay, add new features, or create new gameplay modes within the game.
 
 ## Installation
 
