@@ -1,22 +1,42 @@
-Copyright (c) 2023 Fronsky
+Fronsky Spigot Framework License Agreement
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+This Fronsky Spigot Framework License Agreement (the "Agreement") is made and entered into by and between Fronsky
+("Licensor") and the end-user ("Licensee") who downloads, installs, or uses the Fronsky Spigot Framework (the "Software").
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+1. Grant of License. Licensor hereby grants Licensee a non-exclusive, non-transferable, limited license to use the Software
+for personal or commercial purposes, subject to the terms and conditions of this Agreement. The license is free for all users,
+and Licensor reserves the right to change the license terms for future updates.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NON INFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+2. Use Restrictions. Licensee shall not (a) distribute, sell, assign, sublicense, transfer, lease,
+(b) adapt, reverse engineer, decompile, disassemble, or (c) remove or alter any trademark, logo, copyright notice,
+or other proprietary notice on or in the Software. Licensee shall use the Software only in compliance with all
+applicable laws and regulations.
 
-This license requires that users of the software must contact the author prior to using the software for any purpose.
-By using the software, users acknowledge that they have read and understood this license and agree to be bound by its terms.
+3. Ownership. Licensor retains all rights, title, and interest in and to the Software, including without limitation all
+intellectual property rights, trademarks, and copyrights. Licensee acknowledges that no ownership rights in the Software
+are transferred to Licensee under this Agreement.
+
+4. Termination. This Agreement shall remain in effect until terminated by either party. Licensor may terminate this
+Agreement immediately upon written notice to Licensee if Licensee breaches any term of this Agreement. Upon termination,
+Licensee shall immediately cease all use of the Software and destroy all copies of the Software in its possession or control.
+
+5. Warranty Disclaimer. THE SOFTWARE IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESS OR IMPLIED,
+INCLUDING WITHOUT LIMITATION ANY WARRANTY OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, OR NONINFRINGEMENT.
+LICENSOR DOES NOT WARRANT THAT THE SOFTWARE WILL MEET LICENSEE'S REQUIREMENTS OR THAT THE OPERATION OF THE SOFTWARE WILL
+BE UNINTERRUPTED OR ERROR-FREE. LICENSOR SHALL NOT BE LIABLE FOR ANY INDIRECT, SPECIAL, CONSEQUENTIAL, OR INCIDENTAL
+DAMAGES ARISING OUT OF OR RELATED TO THIS AGREEMENT OR THE USE OF THE SOFTWARE, EVEN IF LICENSOR HAS BEEN ADVISED OF THE
+POSSIBILITY OF SUCH DAMAGES.
+
+6. Limitation of Liability. LICENSOR'S LIABILITY TO LICENSEE UNDER THIS AGREEMENT SHALL BE LIMITED TO THE AMOUNT PAID BY
+LICENSEE TO LICENSOR FOR THE SOFTWARE. IN NO EVENT SHALL LICENSOR BE LIABLE FOR ANY INDIRECT, SPECIAL, CONSEQUENTIAL, OR
+INCIDENTAL DAMAGES ARISING OUT OF OR RELATED TO THIS AGREEMENT OR THE USE OF THE SOFTWARE.
+
+7. Miscellaneous. This Agreement shall be governed by and construed in accordance with the laws of the jurisdiction in
+which Licensor is located, without regard to its conflict of laws principles. This Agreement represents the entire
+agreement between the parties with respect to the subject matter hereof and supersedes all prior or contemporaneous
+communications and proposals, whether oral or written, between the parties. This Agreement may be amended or modified
+only by a written instrument executed by both parties. If any provision of this Agreement is held to be unenforceable,
+such provision shall be reformed only to the extent necessary to make it enforceable.
+
+By downloading, installing, or using the Software, Licensee agrees to be bound by the terms and conditions of this
+Agreement. If Licensee does not agree to the terms and conditions of this Agreement, Licensee should not use the Software.
