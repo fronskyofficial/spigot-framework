@@ -1,4 +1,4 @@
-import org.example.fronskyframework.test.Main;
+import org.example.fronskyspigotframework.test.Main;
 
 public class ApplicationTest {
 

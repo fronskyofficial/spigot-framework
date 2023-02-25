@@ -4,4 +4,4 @@ main: '${main}'
 api-version: 1.13
 authors: [Fronsky]
 website: fronsky.com
-description: This is the FronskyFramework.
+description: This is the Fronsky Spigot Framework.
