@@ -14,7 +14,7 @@ buildscript {
 
 apply plugin: 'java'
 
-def pluginName = "FronskyFramework"
+def pluginName = "FronskySpigotFramework"
 def pluginGroup = 'org.example'
 def pluginVersion = '1.0.0'
 def spigotVersion = '1.13.2'
