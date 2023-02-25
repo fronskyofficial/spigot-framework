@@ -3,6 +3,7 @@ package org.example.fronskyspigotframework.logic.modules;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandMap;
+import org.bukkit.command.PluginCommand;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -105,7 +106,10 @@ public abstract class Module<M extends JavaPlugin> implements IModule {
 
         events.forEach(HandlerList::unregisterAll);
         for (CommandHandler commandHandler : commands) {
-            commandHandler.unregister(commandMap);
+            PluginCommand pluginCommand = mainClass.getCommand(commandHandler.getName());
+            if (pluginCommand != null) {
+                pluginCommand.unregister(commandMap);
+            }
         }
 
         events.clear();
@@ -141,7 +145,13 @@ public abstract class Module<M extends JavaPlugin> implements IModule {
         }
 
         CommandHandler commandHandler = supplier.get();
-        commandMap.register(commandHandler.getName(), commandHandler);
+        PluginCommand pluginCommand = mainClass.getCommand(commandHandler.getName());
+        if (pluginCommand == null) {
+            throw new RuntimeException("The plugin command is null.");
+        }
+
+        pluginCommand.setExecutor(commandHandler);
+        pluginCommand.setTabCompleter(commandHandler);
         commands.add(commandHandler);
     }
 }
