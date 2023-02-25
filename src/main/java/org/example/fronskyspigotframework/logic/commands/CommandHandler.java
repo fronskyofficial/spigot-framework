@@ -1,31 +1,32 @@
 package org.example.fronskyspigotframework.logic.commands;
 
-import org.jetbrains.annotations.NotNull;
+import lombok.Getter;
 import lombok.Setter;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
+import org.bukkit.command.*;
 import org.bukkit.entity.Player;
 import org.example.fronskyspigotframework.logic.enums.ELanguage;
 import org.example.fronskyspigotframework.logic.interfaces.ICommandHandler;
 import org.example.fronskyspigotframework.logic.logging.Logger;
+import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.LinkedList;
 import java.util.List;
 
-public abstract class CommandHandler extends Command implements ICommandHandler {
+public abstract class CommandHandler implements TabCompleter, CommandExecutor, ICommandHandler {
 
-    private final String commandPermission;
+    @Getter
+    private final String name;
+    @Getter
+    private final String permission;
     private Player player = null;
     @Setter
     private List<String> subcommands;
 
-    protected CommandHandler(String commandName, String commandPermission) {
-        super(commandName);
-        setPermission(commandPermission);
-
-        this.commandPermission = commandPermission;
+    protected CommandHandler(String name, String permission) {
+        this.name = name;
+        this.permission = permission;
         subcommands = new LinkedList<>();
     }
 
@@ -34,17 +35,17 @@ public abstract class CommandHandler extends Command implements ICommandHandler 
     }
 
     @Override
-    public boolean execute(@NotNull CommandSender sender, @NotNull String commandLabel, @NotNull String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (sender instanceof Player) {
             player = (Player) sender;
         }
 
         if (!subcommands.isEmpty()) {
             String subcommand = getSubcommand(args);
-            if (!subcommand.isEmpty() && hasPermission(player, commandPermission + "." + subcommand)) {
+            if (!subcommand.isEmpty() && hasPermission(player, permission + "." + subcommand)) {
                 try {
                     Method method = this.getClass().getMethod(subcommand, CommandSender.class, String.class, String[].class);
-                    method.invoke(this, sender, commandLabel, getSubcommandArgs(args));
+                    method.invoke(this, sender, label, getSubcommandArgs(args));
                     return true;
                 } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
                     Logger.logWarning(e.getMessage());
@@ -52,11 +53,35 @@ public abstract class CommandHandler extends Command implements ICommandHandler 
             }
         }
 
-        if (!hasPermission(player, commandPermission)) {
+        if (!hasPermission(player, permission)) {
             return false;
         }
-        onCommand(sender, commandLabel, args);
+        onCommand(sender, label, args);
         return true;
+    }
+
+    @Override
+    public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
+        List<String> completions = new LinkedList<>();
+
+        if (args.length == 1) {
+            subcommands.stream()
+                    .filter(subcommand -> subcommand.startsWith(args[0]) && hasPermission(player, permission + "." + subcommand))
+                    .forEach(completions::add);
+        } else {
+            String subcommand = getSubcommand(args);
+            if (!subcommand.isEmpty() && hasPermission(player, permission + "." + subcommand)) {
+                try {
+                    Method method = this.getClass().getMethod(subcommand + "TabComplete", CommandSender.class, String.class, String[].class);
+                    List<String> tabCompletions = (List<String>) method.invoke(this, sender, alias, args);
+                    completions.addAll(tabCompletions);
+                } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+                    Logger.logWarning(e.getMessage());
+                }
+            }
+        }
+
+        return completions;
     }
 
     /**
